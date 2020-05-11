@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>DAY1-数据预处理 | Anita的数据之路</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://Anitaxu.github.io/favicon.ico?v=1589126836450">
+<link rel="stylesheet" href="https://Anitaxu.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+项目介绍：GitHub项目：https://github.com/MLEveryday/100-Days-Of-ML-Code
+花100天跟随项目写代码，在项目的基础上会替换上更新的代码和一些自己的理解。
+
+正式开始
+
+数据预处理分为四步..." />
+    <meta name="keywords" content="机器学习" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://Anitaxu.github.io">
+        <img src="https://Anitaxu.github.io/images/avatar.png?v=1589126836450" class="site-logo">
+        <h1 class="site-title">Anita的数据之路</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            机器学习100天
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://Anitaxu.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">DAY1-数据预处理</h2>
+            <div class="post-date">2020-05-10</div>
+            
+            <div class="post-content" v-pre>
+              <!-- more -->
+<h3 id="项目介绍github项目httpsgithubcommleveryday100-days-of-ml-code">项目介绍：GitHub项目：https://github.com/MLEveryday/100-Days-Of-ML-Code</h3>
+<h3 id="花100天跟随项目写代码在项目的基础上会替换上更新的代码和一些自己的理解">花100天跟随项目写代码，在项目的基础上会替换上更新的代码和一些自己的理解。</h3>
+<hr>
+<h2 id="正式开始">正式开始</h2>
+<hr>
+<p>数据预处理分为四步：</p>
+<ol>
+<li>处理缺失值。方法有补上平均值、众数、向上/下填充等方法。</li>
+<li>字符串类型分类数据处理为数值型分类数据；后转为独热编码。</li>
+<li>数值型特征归一化。</li>
+<li>将数据集拆分为训练集和测试集。</li>
+</ol>
+<hr>
+<p>使用了sklearn的preprocessing</p>
+<hr>
+<p><strong>以下为Python代码实现：</strong></p>
+<pre><code class="language-python"> # 1.导入基础库
+import numpy as np
+import pandas as pd
+
+# 2.导入数据集
+datasets = pd.read_csv('Data.csv')
+datasets.head()
+#将Country   Age   Salary作为特征存储为X，Purchased作为分类存储为Y
+X = datasets.iloc[:, :-1].values  #.iloc[行，列]
+
+# 3.丢失数据处理为平均值
+from sklearn.preprocessing import Imputer 
+imputer = Imputer(missing_values = 'NaN', strategy = 'mean', axis = 0)
+# 对Age   Salary列的空值进行填充
+imputer = imputer.fit(X[:, 1:3]) 
+X[:,1:3] = imputer.transform(X[:,1:3])
+
+# 4.解析分类数据,将分类的Country转为枚举的0,1,2
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+labelencoder_X = LabelEncoder()
+X[:,0] = labelencoder_X.fit_transform(X[:,0])
+# 创建虚拟变量,X的country转为onehot编码，Y转为分类0，1
+onehotencoder = OneHotEncoder(categorical_features=[0])
+X = onehotencoder.fit_transform(X).toarray()
+labelencoder_Y = LabelEncoder()
+Y = labelencoder_Y.fit_transform(Y)
+
+# 5.拆分数据及为训练集和测试集
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+
+# 6.特征标准化
+from sklearn.preprocessing import StandardScaler
+sc_X = StandardScaler()
+X_train = sc_X.fit_transform(X_train)
+X_test = sc_X.fit_transform(X_test)
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://Anitaxu.github.io/tag/mXiWXx3nS/" class="tag">
+                    机器学习
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://Anitaxu.github.io/post/hello-gridea/">
+                  <h3 class="post-title">
+                    Hello Gridea
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
