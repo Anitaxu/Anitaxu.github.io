@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Anitaxu.github.io</id>
     <title>Anita的数据之路</title>
-    <updated>2020-05-11T15:05:49.284Z</updated>
+    <updated>2020-05-11T15:54:10.062Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Anitaxu.github.io"/>
     <link rel="self" href="https://Anitaxu.github.io/atom.xml"/>
@@ -11,9 +11,70 @@
     <icon>https://Anitaxu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Anita的数据之路</rights>
     <entry>
+        <title type="html"><![CDATA[DAY2-简单线性回归]]></title>
+        <id>https://Anitaxu.github.io/post/ml-everyday-day-day2/</id>
+        <link href="https://Anitaxu.github.io/post/ml-everyday-day-day2/">
+        </link>
+        <updated>2020-05-11T15:36:05.000Z</updated>
+        <content type="html"><![CDATA[<p>本次处理分为两个部分：</p>
+<ol>
+<li>通过训练集训练出简单线性回归模型，并进行预测；</li>
+<li>预测结果可视化。</li>
+</ol>
+<h3 id="线性回归模型">线性回归模型：</h3>
+<blockquote>
+<p>使用sklearn.linear_model库的LinearRegression类，创建regressor对象。<br>
+用类的fit()方法将数据集进行训练。<br>
+用regression.predict()输出预测结果。</p>
+</blockquote>
+<h3 id="可视化">可视化：</h3>
+<blockquote>
+<p>使用matplotlib进行画图。<br>
+原始数据用散点图表示，预测数据用直线图表示。</p>
+</blockquote>
+<p>** Python代码如下： **</p>
+<pre><code class="language-python"># 1.数据预处理
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+dataset = pd.read_csv('/Users/xusunmi/Documents/GitHub/100-Days-Of-ML-Code/datasets/studentscores.csv')
+X = dataset.iloc[ : ,   : 1 ].values
+Y = dataset.iloc[ : , 1 ].values
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split( X, Y, test_size = 1/4, random_state = 0)
+
+# 2.训练集使用简单线性回归模型来训练
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor = regressor.fit(X_train, Y_train)
+
+# 3.预测结果
+Y_pred = regressor.predict(X_test)
+
+# 4.可视化
+# 训练集结果可视化
+plt.scatter(X_train , Y_train, color = 'red')
+plt.plot(X_train , regressor.predict(X_train), color ='blue')
+plt.show()
+# 测试集结果可视化
+plt.scatter(X_test , Y_test, color = 'red')
+plt.plot(X_test , regressor.predict(X_test), color ='blue')
+plt.show()
+</code></pre>
+<ul>
+<li>训练集结果可视化图：<br>
+<img src="https://Anitaxu.github.io/post-images/1589211869723.png" alt="" loading="lazy"></li>
+<li>测试集结果可视化图：<br>
+<img src="https://Anitaxu.github.io/post-images/1589211884271.png" alt="" loading="lazy"></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[DAY1-数据预处理]]></title>
-        <id>https://Anitaxu.github.io/post/ml-everyday-day/</id>
-        <link href="https://Anitaxu.github.io/post/ml-everyday-day/">
+        <id>https://Anitaxu.github.io/post/ml-everyday-day-day1/</id>
+        <link href="https://Anitaxu.github.io/post/ml-everyday-day-day1/">
         </link>
         <updated>2020-05-10T14:45:20.000Z</updated>
         <content type="html"><![CDATA[<h3 id="项目介绍github项目httpsgithubcommleveryday100-days-of-ml-code">项目介绍：GitHub项目：https://github.com/MLEveryday/100-Days-Of-ML-Code</h3>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Hello Gridea | Anita的数据之路</title>
+<title>DAY2-简单线性回归 | Anita的数据之路</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -27,15 +27,16 @@
 </script>
 
 
-    <meta name="description" content="👏  欢迎使用 Gridea ！
-✍️  Gridea 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...
+    <meta name="description" content="本次处理分为两个部分：
 
-Github
-Gridea 主页
-示例网站
-特性👇
-📝  你可以使用最酷的 Markdo..." />
-    <meta name="keywords" content="Gridea" />
+通过训练集训练出简单线性回归模型，并进行预测；
+预测结果可视化。
+
+线性回归模型：
+
+使用sklearn.linear_model库的LinearRegression类，创建regressor对象。
+用类的fit(..." />
+    <meta name="keywords" content="机器学习" />
   </head>
   <body>
     <div id="app" class="main">
@@ -106,45 +107,83 @@ Gridea 主页
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Hello Gridea</h2>
-            <div class="post-date">2018-12-12</div>
-            
-              <div class="feature-container" style="background-image: url('https://Anitaxu.github.io/post-images/hello-gridea.png')">
-              </div>
+            <h2 class="post-title">DAY2-简单线性回归</h2>
+            <div class="post-date">2020-05-11</div>
             
             <div class="post-content" v-pre>
-              <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+              <p>本次处理分为两个部分：</p>
+<ol>
+<li>通过训练集训练出简单线性回归模型，并进行预测；</li>
+<li>预测结果可视化。</li>
+</ol>
+<h3 id="线性回归模型">线性回归模型：</h3>
+<blockquote>
+<p>使用sklearn.linear_model库的LinearRegression类，创建regressor对象。<br>
+用类的fit()方法将数据集进行训练。<br>
+用regression.predict()输出预测结果。</p>
+</blockquote>
+<h3 id="可视化">可视化：</h3>
+<blockquote>
+<p>使用matplotlib进行画图。<br>
+原始数据用散点图表示，预测数据用直线图表示。</p>
+</blockquote>
+<p>** Python代码如下： **</p>
+<pre><code class="language-python"># 1.数据预处理
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+dataset = pd.read_csv('/Users/xusunmi/Documents/GitHub/100-Days-Of-ML-Code/datasets/studentscores.csv')
+X = dataset.iloc[ : ,   : 1 ].values
+Y = dataset.iloc[ : , 1 ].values
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split( X, Y, test_size = 1/4, random_state = 0)
+
+# 2.训练集使用简单线性回归模型来训练
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor = regressor.fit(X_train, Y_train)
+
+# 3.预测结果
+Y_pred = regressor.predict(X_test)
+
+# 4.可视化
+# 训练集结果可视化
+plt.scatter(X_train , Y_train, color = 'red')
+plt.plot(X_train , regressor.predict(X_train), color ='blue')
+plt.show()
+# 测试集结果可视化
+plt.scatter(X_test , Y_test, color = 'red')
+plt.plot(X_test , regressor.predict(X_test), color ='blue')
+plt.show()
+</code></pre>
+<ul>
+<li>训练集结果可视化图：<br>
+<img src="https://Anitaxu.github.io/post-images/1589211869723.png" alt="" loading="lazy"></li>
+<li>测试集结果可视化图：<br>
+<img src="https://Anitaxu.github.io/post-images/1589211884271.png" alt="" loading="lazy"></li>
+</ul>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://Anitaxu.github.io/tag/eMyTHriIX/" class="tag">
-                    Gridea
+                  <a href="https://Anitaxu.github.io/tag/mXiWXx3nS/" class="tag">
+                    机器学习
                   </a>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://Anitaxu.github.io/post/ml-everyday-day-day1/">
+                  <h3 class="post-title">
+                    DAY1-数据预处理
+                  </h3>
+                </a>
+              </div>
             
 
             
