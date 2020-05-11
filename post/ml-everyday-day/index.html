@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://Anitaxu.github.io/favicon.ico?v=1589126836450">
+<link rel="shortcut icon" href="https://Anitaxu.github.io/favicon.ico?v=1589207217623">
 <link rel="stylesheet" href="https://Anitaxu.github.io/styles/main.css">
 
 
@@ -18,13 +18,12 @@
 
 
 
-    <meta name="description" content="
-项目介绍：GitHub项目：https://github.com/MLEveryday/100-Days-Of-ML-Code
+    <meta name="description" content="项目介绍：GitHub项目：https://github.com/MLEveryday/100-Days-Of-ML-Code
 花100天跟随项目写代码，在项目的基础上会替换上更新的代码和一些自己的理解。
 
-正式开始
+DAY1 开始
 
-数据预处理分为四步..." />
+数据质量三要素..." />
     <meta name="keywords" content="机器学习" />
   </head>
   <body>
@@ -34,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://Anitaxu.github.io">
-        <img src="https://Anitaxu.github.io/images/avatar.png?v=1589126836450" class="site-logo">
+        <img src="https://Anitaxu.github.io/images/avatar.png?v=1589207217623" class="site-logo">
         <h1 class="site-title">Anita的数据之路</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -100,13 +99,16 @@
             <div class="post-date">2020-05-10</div>
             
             <div class="post-content" v-pre>
-              <!-- more -->
-<h3 id="项目介绍github项目httpsgithubcommleveryday100-days-of-ml-code">项目介绍：GitHub项目：https://github.com/MLEveryday/100-Days-Of-ML-Code</h3>
+              <h3 id="项目介绍github项目httpsgithubcommleveryday100-days-of-ml-code">项目介绍：GitHub项目：https://github.com/MLEveryday/100-Days-Of-ML-Code</h3>
 <h3 id="花100天跟随项目写代码在项目的基础上会替换上更新的代码和一些自己的理解">花100天跟随项目写代码，在项目的基础上会替换上更新的代码和一些自己的理解。</h3>
 <hr>
-<h2 id="正式开始">正式开始</h2>
-<hr>
-<p>数据预处理分为四步：</p>
+<h2 id="day1-开始">DAY1 开始</h2>
+<blockquote>
+<p>数据质量三要素：<strong>准确性、完整性和一致性</strong>。不正确的源数据，无论算法多么强大，都无法得出有价值的结论！<br>
+数据预处理包含数据清洗、数据集成、数据规约、数据变换，是建模的基础，也是建模至关重要的一步。预处理的好坏直接影响模型质量，需要花费80%的精力。此部分重点总结数据清洗步骤。</p>
+</blockquote>
+<h2 id=""><img src="https://Anitaxu.github.io/post-images/1589205673030.png" alt="" loading="lazy"></h2>
+<p>代码中数据预处理分为四步：</p>
 <ol>
 <li>处理缺失值。方法有补上平均值、众数、向上/下填充等方法。</li>
 <li>字符串类型分类数据处理为数值型分类数据；后转为独热编码。</li>
@@ -114,8 +116,12 @@
 <li>将数据集拆分为训练集和测试集。</li>
 </ol>
 <hr>
-<p>使用了sklearn的preprocessing</p>
-<hr>
+<p>具体使用了sklearn.preprocessing</p>
+<ul>
+<li>Imputer处理空值</li>
+<li>LabelEncoder：将字符型特征转为数值型特征</li>
+<li>OneHotEncoder：分类特征进行独热编码</li>
+</ul>
 <p><strong>以下为Python代码实现：</strong></p>
 <pre><code class="language-python"> # 1.导入基础库
 import numpy as np
